@@ -9,7 +9,7 @@ var cors = require("cors");
 app.use(express.json());
 
 var corsOptions = {
-  origin: "http://localhost:5173",
+  origin: "https://legendary-khapse-d7aac3.netlify.app/",
   optionsSuccessStatus: 200,
 };
 app.use(cors(corsOptions));
