@@ -9,7 +9,7 @@ var cors = require("cors");
 app.use(express.json());
 
 var corsOptions = {
-  origin: "https://legendary-khapse-d7aac3.netlify.app/",
+  origin: "https://legendary-khapse-d7aac3.netlify.app",
   optionsSuccessStatus: 200,
 };
 app.use(cors(corsOptions));
