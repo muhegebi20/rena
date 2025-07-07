@@ -14,7 +14,7 @@ function App() {
   useEffect(() => {
     const getProducts = async () => {
       try {
-        const response = await axios.get("http://localhost:3000/");
+        const response = await axios.get("https://rena-fullstack.onrender.com/");
         setProducts(response.data.products || []);
       } catch (err) {
         console.error("Error fetching products:", err);
