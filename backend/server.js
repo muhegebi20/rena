@@ -4,8 +4,15 @@ const data = require("./services/db.json");
 const app = express();
 const port = 3000;
 const axios = require("axios");
+var cors = require("cors");
 
 app.use(express.json());
+
+var corsOptions = {
+  origin: "http://localhost:5173",
+  optionsSuccessStatus: 200,
+};
+app.use(cors(corsOptions));
 
 const API_KEY = process.env.API_KEY;
 const url = "https://www.goldapi.io/api/XAU/USD";
@@ -45,6 +52,36 @@ async function updatePrice(req, res, next) {
 app.get("/", updatePrice, (req, res) => {
   res.json({
     products: data,
+  });
+});
+
+app.get("/filter", (req, res) => {
+  const { minPrice, maxPrice, minPopularity, maxPopularity } = req.query;
+
+  let filteredProducts = [...data];
+
+  if (minPrice || maxPrice) {
+    filteredProducts = filteredProducts.filter((product) => {
+      const price = product.price;
+      return (
+        (!minPrice || price >= parseFloat(minPrice)) &&
+        (!maxPrice || price <= parseFloat(maxPrice))
+      );
+    });
+  }
+
+  if (minPopularity || maxPopularity) {
+    filteredProducts = filteredProducts.filter((product) => {
+      const popularity = product.popularityScore;
+      return (
+        (!minPopularity || popularity >= parseFloat(minPopularity)) &&
+        (!maxPopularity || popularity <= parseFloat(maxPopularity))
+      );
+    });
+  }
+
+  res.json({
+    products: filteredProducts,
   });
 });
 
